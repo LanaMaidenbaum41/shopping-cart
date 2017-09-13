@@ -19,10 +19,12 @@ var updateCart = function () {
 
   var items = Object.keys(cart);
   var total = 0;
+  var totalQuantity = 0;
   for (var i = 0; i < items.length; i++) {
     var name = items[i];
+    totalQuantity += cart[name].quantity;
     var item = {
-      name: name.charAt(0).toUpperCase() + name.substring(1,name.length),
+      name: name.charAt(0).toUpperCase() + name.substring(1, name.length),
       price: cart[name].price,
       quantity: cart[name].quantity
 
@@ -31,6 +33,21 @@ var updateCart = function () {
     $('.cart-list').append(newHTML);
     total += item.price * item.quantity;
   }
+
+  $('#shopping-cart-feedback').text(totalQuantity + ' ITEMS - $' + total);
+
+
+  $(".fa-shopping-cart").toggleClass("cart-shake");
+  //$(".fa-shopping-cart").toggleClass("cart-shake");
+
+
+
+  // var counter = 100;
+  // while(counter>100){
+  //   $('.fa-shopping-cart').toggleClass(".added-to-cart");
+  //   counter--;
+  // }
+
   $('.total').text(total);
 }
 function increaseQuant(name) {
@@ -40,7 +57,7 @@ function increaseQuant(name) {
 
 function decreaseQuant(name) {
   cart[name].quantity--;
-  if(cart[name].quantity === 0){
+  if (cart[name].quantity === 0) {
     delete cart[name];
   };
   updateCart();
@@ -87,7 +104,7 @@ $('.cart-list').on('click', '.fa-plus', function () {
 });
 $('.cart-list').on('click', '.fa-minus', function () {
   var name = $(this).closest('.itemRow').find(".cart-item").data().name.toLowerCase();
- 
+
   decreaseQuant(name);
 });
 
